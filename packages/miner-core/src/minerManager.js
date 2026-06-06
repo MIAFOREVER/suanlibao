@@ -42,13 +42,21 @@ class MinerManager extends EventEmitter {
       return this.startSimulator(upperCoin, meta);
     }
 
+    const preflight = this.preflightKernel(upperCoin, coinConfig, kernelConfig);
+    if (!preflight.ok) {
+      const state = this.state(upperCoin, "stopped", 0, preflight.message);
+      this.emit("log", { coin: upperCoin, text: preflight.message, at: new Date().toISOString() });
+      this.emit("event", state);
+      return state;
+    }
+
     const args = [
       ...(kernelConfig.args || []),
       ...(coinConfig.args || meta.args || []),
       ...(options.extraArgs || [])
     ];
     const child = spawn(kernelConfig.path, args, {
-      cwd: kernelConfig.cwd || process.cwd(),
+      cwd: kernelConfig.cwd || path.dirname(kernelConfig.path),
       windowsHide: false,
       stdio: ["ignore", "pipe", "pipe"]
     });
@@ -64,6 +72,31 @@ class MinerManager extends EventEmitter {
     });
 
     return this.state(upperCoin, "running");
+  }
+
+  preflightKernel(coin, coinConfig, kernelConfig) {
+    if (process.platform !== "win32" || coinConfig.kernel !== "alpha-miner") {
+      return { ok: true };
+    }
+
+    const kernelDir = path.dirname(kernelConfig.path);
+    const missingRuntime = ["MSVCP140.dll", "VCRUNTIME140.dll", "VCRUNTIME140_1.dll"]
+      .filter((dll) => !findDll(dll, [kernelDir]));
+    if (missingRuntime.length) {
+      return {
+        ok: false,
+        message: `AlphaMiner 缺少运行库 DLL: ${missingRuntime.join(", ")}。请重新执行内核导入或安装 Microsoft Visual C++ Runtime。`
+      };
+    }
+
+    if (!findDll("nvcuda.dll")) {
+      return {
+        ok: false,
+        message: "AlphaMiner 是 NVIDIA/CUDA 版 PRL 内核，但当前系统没有 nvcuda.dll/NVIDIA 驱动；这台 AMD/Intel 显卡机器不能用该内核挖 PRL。"
+      };
+    }
+
+    return { ok: true };
   }
 
   getCoinConfig(coin, fallback = DEFAULT_MINERS[coin] || {}) {
@@ -161,6 +194,17 @@ class MinerManager extends EventEmitter {
 
 function stripAnsi(value) {
   return value.replace(/\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~]|\][^\x07]*(?:\x07|\x1B\\))/g, "");
+}
+
+function findDll(name, extraDirs = []) {
+  const systemRoot = process.env.SystemRoot || "C:\\Windows";
+  const dirs = [
+    ...extraDirs,
+    path.join(systemRoot, "System32"),
+    path.join(systemRoot, "Sysnative"),
+    ...String(process.env.PATH || "").split(path.delimiter)
+  ].filter(Boolean);
+  return dirs.some((dir) => fs.existsSync(path.join(dir, name)));
 }
 
 module.exports = { MinerManager, DEFAULT_MINERS };

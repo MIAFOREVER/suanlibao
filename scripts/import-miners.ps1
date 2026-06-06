@@ -51,6 +51,43 @@ function Expand-LolMinerArchive {
   return $Exe.DirectoryName
 }
 
+function Find-RuntimeDll {
+  param(
+    [string]$Name,
+    [string[]]$PreferredDirs = @()
+  )
+
+  foreach ($Dir in $PreferredDirs) {
+    if (-not $Dir) { continue }
+    $Candidate = Join-Path $Dir $Name
+    if (Test-Path $Candidate) {
+      return $Candidate
+    }
+  }
+
+  foreach ($Dir in @("$env:WINDIR\System32", "$env:WINDIR\Sysnative", "$env:WINDIR\SysWOW64")) {
+    $Candidate = Join-Path $Dir $Name
+    if (Test-Path $Candidate) {
+      return $Candidate
+    }
+  }
+
+  throw "Missing runtime DLL: $Name. Install Microsoft Visual C++ Runtime or provide it beside the miner binaries."
+}
+
+function Copy-RuntimeDll {
+  param(
+    [string]$Name,
+    [string[]]$PreferredDirs,
+    [string[]]$Targets
+  )
+
+  $Source = Find-RuntimeDll -Name $Name -PreferredDirs $PreferredDirs
+  foreach ($Target in $Targets) {
+    Copy-Item -LiteralPath $Source -Destination (Join-Path $Target $Name) -Force
+  }
+}
+
 $AlphaExe = Join-Path $AlphaMinerDir "alpha-miner-windows.exe"
 $LolExe = Join-Path $LolMinerDir "lolMiner.exe"
 $LolDll = Join-Path $LolMinerDir "msvcp140.dll"
@@ -80,6 +117,10 @@ New-Item -ItemType Directory -Force -Path $AlphaTarget, $LolTarget | Out-Null
 Copy-Item -LiteralPath $AlphaExe -Destination (Join-Path $AlphaTarget "alpha-miner-windows.exe") -Force
 Copy-Item -LiteralPath $LolExe -Destination (Join-Path $LolTarget "lolMiner.exe") -Force
 Copy-Item -LiteralPath $LolDll -Destination (Join-Path $LolTarget "msvcp140.dll") -Force
+
+foreach ($RuntimeDll in "msvcp140.dll", "vcruntime140.dll", "vcruntime140_1.dll") {
+  Copy-RuntimeDll -Name $RuntimeDll -PreferredDirs @($LolMinerDir, $AlphaMinerDir) -Targets @($AlphaTarget, $LolTarget)
+}
 
 foreach ($Optional in "license.txt", "readme.txt") {
   $Source = Join-Path $LolMinerDir $Optional
