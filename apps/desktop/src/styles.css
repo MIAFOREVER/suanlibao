@@ -547,8 +547,15 @@ button {
   border-radius: 8px;
 }
 
-.coinGrid span {
+.coinGrid span,
+.coinGrid small,
+.coinGrid em {
   color: #64748b;
+}
+
+.coinGrid small,
+.coinGrid em {
+  font-style: normal;
 }
 
 pre {

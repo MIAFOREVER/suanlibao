@@ -5,7 +5,7 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const { MinerManager } = require("../../../packages/miner-core/src/minerManager");
 const minerConfig = require("./miners.json");
 
-const manager = new MinerManager(minerConfig);
+const manager = new MinerManager(minerConfig, { baseDir: __dirname });
 let mainWindow;
 let apiServer;
 

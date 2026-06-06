@@ -286,7 +286,9 @@ function SettingsView({ minerStates }) {
           {coins.map((coin) => (
             <div key={coin}>
               <b>{coin}</b>
-              <span>{minerStates[coin]?.configured ? "已配置" : "模拟模式"}</span>
+              <span>{minerStates[coin]?.engine || "unknown"}</span>
+              <small>{minerStates[coin]?.algorithm || "-"}</small>
+              <em>{minerStates[coin]?.configured ? "已配置" : "模拟模式"}</em>
             </div>
           ))}
         </div>

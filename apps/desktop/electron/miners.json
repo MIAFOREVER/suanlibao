@@ -1,25 +1,67 @@
 {
-  "XMR": {
-    "path": "",
-    "args": ["-o", "pool.example:3333", "-u", "YOUR_XMR_WALLET", "-p", "x"]
+  "kernels": {
+    "xmrig": {
+      "path": "",
+      "args": ["--donate-level=1"]
+    },
+    "lolminer": {
+      "path": "",
+      "args": []
+    },
+    "alpha-miner": {
+      "path": "",
+      "args": []
+    }
   },
-  "RVN": {
-    "path": "",
-    "args": ["-a", "kawpow", "-o", "stratum+tcp://pool.example:3636", "-u", "YOUR_RVN_WALLET"]
-  },
-  "CFX": {
-    "path": "",
-    "args": ["--algo", "octopus", "--pool", "pool.example:3256", "--user", "YOUR_CFX_WALLET"]
-  },
-  "PRL": {
-    "path": "",
-    "args": [
-      "-o",
-      "stratum+tcp://miner.ntminer.vip:13339",
-      "-u",
-      "prl1pnjadk4jwr2ene9setcey2fufl7e669u3rlzzzqaw6dwklxa4qy7sxddyf9",
-      "-p",
-      "x"
-    ]
+  "coins": {
+    "XMR": {
+      "kernel": "xmrig",
+      "type": "cpu",
+      "algorithm": "RandomX",
+      "args": ["-o", "pool.example:3333", "-u", "YOUR_XMR_WALLET", "-p", "x"]
+    },
+    "RVN": {
+      "kernel": "lolminer",
+      "type": "gpu",
+      "algorithm": "KAWPOW",
+      "args": [
+        "--algo",
+        "KAWPOW",
+        "--pool",
+        "stratum+tcp://pool.example:3636",
+        "--user",
+        "YOUR_RVN_WALLET",
+        "--pass",
+        "x"
+      ]
+    },
+    "CFX": {
+      "kernel": "lolminer",
+      "type": "gpu",
+      "algorithm": "OCTOPUS",
+      "args": [
+        "--algo",
+        "OCTOPUS",
+        "--pool",
+        "pool.example:3256",
+        "--user",
+        "YOUR_CFX_WALLET",
+        "--pass",
+        "x"
+      ]
+    },
+    "PRL": {
+      "kernel": "alpha-miner",
+      "type": "gpu",
+      "algorithm": "pearl-pow",
+      "args": [
+        "--pool",
+        "stratum+tcp://miner.ntminer.vip:13339",
+        "--address",
+        "prl1pnjadk4jwr2ene9setcey2fufl7e669u3rlzzzqaw6dwklxa4qy7sxddyf9",
+        "--worker",
+        "xinghuo-ai"
+      ]
+    }
   }
 }

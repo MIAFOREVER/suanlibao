@@ -70,3 +70,13 @@ gh auth login
 - GPU PRL: 按目标币种实际算法选择对应官方内核
 
 如果没有配置内核路径，客户端会以模拟模式写入日志，方便先完成 UI 和登录流程。
+
+## 内核集成
+
+`apps/desktop/electron/miners.json` 已支持：
+
+- PRL: `alpha-miner`, `pearl-pow`
+- RVN: `lolMiner`, `KAWPOW`
+- CFX: `lolMiner`, `OCTOPUS`
+
+将 exe 放到 `apps/desktop/electron/miners/` 下，或在 `miners.json` 里填写绝对路径。相对路径以 `apps/desktop/electron/` 为基准。
