@@ -28,6 +28,9 @@ export function App() {
   const [view, setView] = useState("home");
   const [minerStates, setMinerStates] = useState({});
   const [logs, setLogs] = useState([]);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(
+    () => localStorage.getItem("xinghuo_sidebar_collapsed") === "true"
+  );
 
   useEffect(() => {
     async function boot() {
@@ -122,16 +125,26 @@ export function App() {
     }
   }
 
+  function toggleSidebar() {
+    setSidebarCollapsed((collapsed) => {
+      const next = !collapsed;
+      localStorage.setItem("xinghuo_sidebar_collapsed", String(next));
+      return next;
+    });
+  }
+
   return (
-    <div className="shell">
+    <div className={sidebarCollapsed ? "shell sidebarCollapsed" : "shell"}>
       <aside className="sidebar">
         <div className="brand">
           <img className="brandIcon brandLogo" src={brandLogo} alt="星火 AI" />
-          <div>
+          <div className="brandText">
             <strong>星火 AI</strong>
             <span>Xinghuo AI</span>
           </div>
-          <Menu size={22} />
+          <button className="brandMenu" onClick={toggleSidebar} title={sidebarCollapsed ? "展开侧边栏" : "折叠侧边栏"}>
+            <Menu size={24} />
+          </button>
         </div>
         <nav>
           <SideButton icon={Home} active={view === "home"} label="首页" onClick={() => setView("home")} />
@@ -140,7 +153,7 @@ export function App() {
         </nav>
         <div className="sidebarFoot">
           <p><span className="dot" /> {user.email}</p>
-          <button onClick={logout}><LogOut size={24} />退出登录</button>
+          <button onClick={logout} title="退出登录"><LogOut size={24} /><span className="sideLabel">退出登录</span></button>
           <b>v0.1.0</b>
         </div>
       </aside>
@@ -294,7 +307,12 @@ function LogsView({ logs }) {
 }
 
 function SideButton({ icon: Icon, active, label, onClick }) {
-  return <button className={active ? "active" : ""} onClick={onClick}><Icon size={26} />{label}</button>;
+  return (
+    <button className={active ? "active" : ""} onClick={onClick} title={label}>
+      <Icon size={26} />
+      <span className="sideLabel">{label}</span>
+    </button>
+  );
 }
 
 function timeOnly(value) {

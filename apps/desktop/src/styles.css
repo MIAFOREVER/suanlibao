@@ -118,23 +118,30 @@ button {
   grid-template-columns: 300px 1fr;
   overflow: hidden;
   background: #f6f8fb;
+  transition: grid-template-columns 180ms ease;
+}
+
+.shell.sidebarCollapsed {
+  grid-template-columns: 92px 1fr;
 }
 
 .sidebar {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   color: #a8b2c7;
   background: #111827;
   border-right: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
 }
 
 .brand {
   height: 118px;
   display: grid;
-  grid-template-columns: 58px 1fr 26px;
+  grid-template-columns: 58px minmax(0, 1fr) 54px;
   gap: 16px;
   align-items: center;
-  padding: 24px;
+  padding: 24px 22px;
 }
 
 .brand strong {
@@ -146,6 +153,26 @@ button {
 .brand span {
   font-size: 13px;
   font-weight: 700;
+}
+
+.brandText {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.brandMenu {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: #a8b2c7;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.brandMenu:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .sidebar nav {
@@ -166,6 +193,7 @@ button {
   background: transparent;
   font-size: 20px;
   font-weight: 800;
+  white-space: nowrap;
 }
 
 .sidebar nav .active {
@@ -177,6 +205,7 @@ button {
 .sidebarFoot {
   margin-top: auto;
   padding: 24px;
+  min-width: 0;
 }
 
 .sidebarFoot p {
@@ -192,6 +221,61 @@ button {
 .sidebarFoot b {
   color: #6966ff;
   letter-spacing: 0;
+}
+
+.sidebarCollapsed .brand {
+  grid-template-columns: 58px;
+  justify-content: center;
+  height: 150px;
+  gap: 14px;
+  padding: 22px 16px;
+}
+
+.sidebarCollapsed .brandText {
+  display: none;
+}
+
+.sidebarCollapsed .brandMenu {
+  width: 58px;
+  height: 58px;
+}
+
+.sidebarCollapsed .sidebar nav {
+  gap: 14px;
+  padding: 26px 14px;
+}
+
+.sidebarCollapsed .sidebar nav button {
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.sidebarCollapsed .sideLabel,
+.sidebarCollapsed .sidebarFoot p,
+.sidebarCollapsed .sidebarFoot button .sideLabel,
+.sidebarCollapsed .sidebarFoot b {
+  display: none;
+}
+
+.sidebarCollapsed .sidebarFoot {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  padding: 20px 14px;
+}
+
+.sidebarCollapsed .sidebarFoot button {
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  padding: 0;
+}
+
+.sidebarCollapsed .sidebarFoot button svg {
+  margin: 0;
 }
 
 .dot {
