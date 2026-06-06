@@ -5,11 +5,11 @@
       "args": ["--donate-level=1"]
     },
     "lolminer": {
-      "path": "",
+      "path": "miners/lolminer/lolMiner.exe",
       "args": []
     },
     "alpha-miner": {
-      "path": "",
+      "path": "miners/alpha-miner/alpha-miner-windows.exe",
       "args": []
     }
   },
@@ -60,7 +60,9 @@
         "--address",
         "prl1pnjadk4jwr2ene9setcey2fufl7e669u3rlzzzqaw6dwklxa4qy7sxddyf9",
         "--worker",
-        "xinghuo-ai"
+        "xinghuo-ai",
+        "--password",
+        "x"
       ]
     }
   }

@@ -5,6 +5,9 @@ apps/admin/dist/
 release/
 data/
 .tools/
+.downloads/
+apps/desktop/electron/miners/alpha-miner/
+apps/desktop/electron/miners/lolminer/
 .env
 *.log
 npm-debug.log*

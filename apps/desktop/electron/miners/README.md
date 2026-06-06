@@ -7,9 +7,10 @@ Recommended layout:
 ```text
 apps/desktop/electron/miners/
   alpha-miner/
-    alpha-miner.exe
+    alpha-miner-windows.exe
   lolminer/
     lolMiner.exe
+    msvcp140.dll
 ```
 
 Then set:
@@ -18,7 +19,7 @@ Then set:
 {
   "kernels": {
     "alpha-miner": {
-      "path": "miners/alpha-miner/alpha-miner.exe"
+      "path": "miners/alpha-miner/alpha-miner-windows.exe"
     },
     "lolminer": {
       "path": "miners/lolminer/lolMiner.exe"

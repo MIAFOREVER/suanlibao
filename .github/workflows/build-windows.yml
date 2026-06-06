@@ -9,6 +9,7 @@ on:
       - ".github/workflows/build-windows.yml"
       - "apps/desktop/**"
       - "packages/miner-core/**"
+      - "scripts/import-miners.ps1"
       - "package.json"
       - "vite.config.js"
 
@@ -31,6 +32,10 @@ jobs:
 
       - name: Build renderer
         run: npm run build:desktop
+
+      - name: Import miner binaries
+        shell: pwsh
+        run: .\scripts\import-miners.ps1
 
       - name: Package Windows installer
         run: npm run dist:win

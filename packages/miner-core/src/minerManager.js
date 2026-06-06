@@ -1,6 +1,7 @@
 const { spawn } = require("child_process");
 const EventEmitter = require("events");
 const fs = require("fs");
+const path = require("path");
 
 const DEFAULT_MINERS = {
   XMR: { kernel: "xmrig", engine: "xmrig", type: "cpu", algorithm: "RandomX", args: ["--donate-level=1"] },
@@ -92,10 +93,11 @@ class MinerManager extends EventEmitter {
   }
 
   resolvePath(filePath) {
-    if (!filePath || /^[a-zA-Z]:[\\/]/.test(filePath) || filePath.startsWith("\\\\")) {
-      return filePath;
-    }
-    return require("path").resolve(this.baseDir, filePath);
+    if (!filePath) return filePath;
+    const resolved = /^[a-zA-Z]:[\\/]/.test(filePath) || filePath.startsWith("\\\\")
+      ? filePath
+      : path.resolve(this.baseDir, filePath);
+    return resolved.replace(`${path.sep}app.asar${path.sep}`, `${path.sep}app.asar.unpacked${path.sep}`);
   }
 
   stop(coin) {

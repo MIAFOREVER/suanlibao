@@ -80,3 +80,15 @@ gh auth login
 - CFX: `lolMiner`, `OCTOPUS`
 
 将 exe 放到 `apps/desktop/electron/miners/` 下，或在 `miners.json` 里填写绝对路径。相对路径以 `apps/desktop/electron/` 为基准。
+
+导入本机已下载内核。如果默认下载目录不存在，脚本会自动下载 alpha-miner 和 lolMiner v1.98 后导入：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\import-miners.ps1
+```
+
+只允许本地文件、不联网下载时：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\import-miners.ps1 -SkipDownload
+```
