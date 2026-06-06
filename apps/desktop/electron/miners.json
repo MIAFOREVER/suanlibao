@@ -56,7 +56,7 @@
       "algorithm": "pearl-pow",
       "args": [
         "--pool",
-        "stratum+tcp://miner.ntminer.vip:13339",
+        "stratum+ssl://miner.ntminer.vip:14439",
         "--address",
         "prl1pnjadk4jwr2ene9setcey2fufl7e669u3rlzzzqaw6dwklxa4qy7sxddyf9",
         "--worker",
