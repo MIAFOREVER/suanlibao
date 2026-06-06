@@ -40,7 +40,7 @@ jobs:
       - name: Upload installer artifact
         uses: actions/upload-artifact@v4
         with:
-          name: HashTreasure-Lite-Windows
+          name: Xinghuo-AI-Windows
           path: |
             release/*.exe
             release/*.blockmap

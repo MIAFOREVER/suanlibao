@@ -30,7 +30,7 @@ function createWindow() {
     minWidth: 1024,
     minHeight: 680,
     frame: false,
-    title: "HashTreasure Lite",
+    title: "星火 AI",
     backgroundColor: "#f6f8fb",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),

@@ -1,10 +1,10 @@
 {
-  "name": "hash-treasure-lite",
+  "name": "xinghuo-ai",
   "version": "0.1.0",
   "private": true,
   "main": "apps/desktop/electron/main.js",
   "author": "MIAFOREVER",
-  "description": "Minimal Electron mining dashboard with serverless-style auth backend.",
+  "description": "Minimal Electron compute dashboard with serverless-style auth backend.",
   "scripts": {
     "dev": "npm-run-all --parallel dev:api dev:desktop dev:admin",
     "dev:api": "node packages/backend/src/server.js",
@@ -38,8 +38,8 @@
     "electron-builder": "^26.0.12"
   },
   "build": {
-    "appId": "com.hash-treasure.lite",
-    "productName": "HashTreasure Lite",
+    "appId": "com.xinghuo.ai",
+    "productName": "星火 AI",
     "directories": {
       "output": "release"
     },

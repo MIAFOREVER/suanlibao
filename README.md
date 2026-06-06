@@ -1,6 +1,6 @@
-# HashTreasure Lite
+# 星火 AI
 
-一个“算力宝”风格的最小工程骨架，分为 Windows Electron 客户端、用户后台、serverless 风格用户 API/数据库，以及可替换的挖矿内核适配层。
+一个 Windows Electron 客户端和用户后台工程骨架，包含 serverless 风格用户 API/数据库，以及可替换的计算内核适配层。
 
 ## 架构
 
@@ -43,13 +43,13 @@ npm run dev:admin
 
 ```powershell
 gh auth login
-.\scripts\github.ps1 -Owner YOUR_GITHUB_NAME -Repo suanlibao-lite
+.\scripts\github.ps1 -Owner YOUR_GITHUB_NAME -Repo suanlibao
 ```
 
 如果你已经在 GitHub 网页上建好了空仓库：
 
 ```powershell
-.\scripts\github.ps1 -RemoteUrl https://github.com/YOUR_GITHUB_NAME/suanlibao-lite.git
+.\scripts\github.ps1 -RemoteUrl https://github.com/YOUR_GITHUB_NAME/suanlibao.git
 ```
 
 ## 挖矿内核说明

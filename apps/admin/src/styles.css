@@ -36,8 +36,14 @@ button {
   box-shadow: 0 24px 70px rgba(15, 23, 42, 0.15);
 }
 
-.login svg {
-  color: #6d46f5;
+.loginLogo {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  padding: 6px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #eef2f7;
 }
 
 .login h1 {

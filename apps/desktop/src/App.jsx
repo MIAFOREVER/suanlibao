@@ -17,6 +17,7 @@ import {
   X
 } from "lucide-react";
 import { api, clearToken, getToken, login, me, register } from "./api";
+import brandLogo from "./assets/brand-logo.png";
 
 const coins = ["XMR", "RVN", "CFX", "PRL"];
 
@@ -125,10 +126,10 @@ export function App() {
     <div className="shell">
       <aside className="sidebar">
         <div className="brand">
-          <div className="brandIcon">算</div>
+          <img className="brandIcon brandLogo" src={brandLogo} alt="星火 AI" />
           <div>
-            <strong>算力宝</strong>
-            <span>HashTreasure</span>
+            <strong>星火 AI</strong>
+            <span>Xinghuo AI</span>
           </div>
           <Menu size={22} />
         </div>
@@ -198,8 +199,8 @@ function AuthScreen({ onAuthed }) {
   return (
     <div className="authPage">
       <section className="authPanel">
-        <div className="authBrand">算</div>
-        <h1>算力宝 Lite</h1>
+        <img className="authBrand brandLogo" src={brandLogo} alt="星火 AI" />
+        <h1>星火 AI</h1>
         <p>登录后绑定本机设备，手动启动 CPU/GPU 算力任务。</p>
         <form onSubmit={submit}>
           <label>邮箱<input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@example.com" /></label>

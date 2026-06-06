@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { RefreshCw, ShieldCheck, Users } from "lucide-react";
+import brandLogo from "./assets/brand-logo.png";
 
 const API_BASE = "http://127.0.0.1:8787";
 const TOKEN_KEY = "hash_treasure_admin_token";
@@ -62,7 +63,7 @@ export function AdminApp() {
     return (
       <main className="login">
         <form onSubmit={submit}>
-          <ShieldCheck size={42} />
+          <img className="loginLogo" src={brandLogo} alt="星火 AI" />
           <h1>用户后台</h1>
           <label>邮箱<input value={email} onChange={(event) => setEmail(event.target.value)} /></label>
           <label>密码<input type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
@@ -77,7 +78,7 @@ export function AdminApp() {
     <main className="admin">
       <header>
         <div>
-          <h1>算力宝用户后台</h1>
+          <h1>星火 AI 用户后台</h1>
           <p>{user.email} / UID {user.uid}</p>
         </div>
         <button onClick={loadUsers}><RefreshCw size={18} />刷新</button>
