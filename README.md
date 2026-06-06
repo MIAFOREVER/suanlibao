@@ -37,6 +37,21 @@ npm run dev:admin
 .\scripts\dev.ps1 admin
 ```
 
+## GitHub
+
+本地仓库已经可以直接推送。若你已安装并登录 GitHub CLI：
+
+```powershell
+gh auth login
+.\scripts\github.ps1 -Owner YOUR_GITHUB_NAME -Repo suanlibao-lite
+```
+
+如果你已经在 GitHub 网页上建好了空仓库：
+
+```powershell
+.\scripts\github.ps1 -RemoteUrl https://github.com/YOUR_GITHUB_NAME/suanlibao-lite.git
+```
+
 ## 挖矿内核说明
 
 工程只集成合法、透明、用户手动控制的内核适配能力，不包含隐藏运行、持久化驻留、规避检测或未经用户授权的行为。
