@@ -15,8 +15,12 @@
     "build": "npm-run-all build:desktop build:admin",
     "build:desktop": "vite build",
     "build:admin": "vite build --config apps/admin/vite.config.js",
+    "import:miners": "powershell -ExecutionPolicy Bypass -File ./scripts/import-miners.ps1",
+    "prepack:win": "npm run import:miners",
     "pack:win": "electron-builder --win --dir",
+    "prepack:win:local": "npm run import:miners",
     "pack:win:local": "electron-builder --win --dir --config.electronDist=.tools/electron",
+    "predist:win": "npm run import:miners",
     "dist:win": "electron-builder --win nsis",
     "lint": "node scripts/check-project.js"
   },

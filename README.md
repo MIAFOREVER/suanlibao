@@ -92,3 +92,10 @@ powershell -ExecutionPolicy Bypass -File .\scripts\import-miners.ps1
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\import-miners.ps1 -SkipDownload
 ```
+
+打包时会自动执行导入步骤并把内核附带进安装包：
+
+```powershell
+npm run pack:win
+npm run dist:win
+```
