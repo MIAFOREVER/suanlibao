@@ -20,6 +20,7 @@ import { api, clearToken, getToken, login, me, register } from "./api";
 import brandLogo from "./assets/brand-logo.png";
 
 const coins = ["XMR", "RVN", "CFX", "PRL"];
+const gpuCoins = ["PRL", "CFX", "RVN"];
 
 export function App() {
   const [user, setUser] = useState(null);
@@ -27,6 +28,9 @@ export function App() {
   const [device, setDevice] = useState({ deviceId: "", hostname: "DESKTOP" });
   const [view, setView] = useState("home");
   const [minerStates, setMinerStates] = useState({});
+  const [selectedGpuCoin, setSelectedGpuCoin] = useState(
+    () => localStorage.getItem("xinghuo_gpu_coin") || "PRL"
+  );
   const [logs, setLogs] = useState([]);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(
     () => localStorage.getItem("xinghuo_sidebar_collapsed") === "true"
@@ -96,8 +100,8 @@ export function App() {
   }, [user, device.deviceId]);
 
   const gpuRunning = useMemo(
-    () => coins.filter((coin) => coin !== "XMR").some((coin) => minerStates[coin]?.status === "running"),
-    [minerStates]
+    () => minerStates[selectedGpuCoin]?.status === "running",
+    [minerStates, selectedGpuCoin]
   );
   const cpuRunning = minerStates.XMR?.status === "running";
 
@@ -118,11 +122,26 @@ export function App() {
   }
 
   async function toggleGpu() {
-    const action = gpuRunning ? "stop" : "start";
-    for (const coin of ["RVN", "CFX", "PRL"]) {
-      const next = await window.desktop.miners[action](coin);
-      setMinerStates((prev) => ({ ...prev, [coin]: { ...prev[coin], ...next } }));
+    if (gpuRunning) {
+      const next = await window.desktop.miners.stop(selectedGpuCoin);
+      setMinerStates((prev) => ({ ...prev, [selectedGpuCoin]: { ...prev[selectedGpuCoin], ...next } }));
+      return;
     }
+
+    for (const coin of gpuCoins) {
+      if (coin !== selectedGpuCoin && minerStates[coin]?.status === "running") {
+        const stopped = await window.desktop.miners.stop(coin);
+        setMinerStates((prev) => ({ ...prev, [coin]: { ...prev[coin], ...stopped } }));
+      }
+    }
+
+    const next = await window.desktop.miners.start(selectedGpuCoin);
+    setMinerStates((prev) => ({ ...prev, [selectedGpuCoin]: { ...prev[selectedGpuCoin], ...next } }));
+  }
+
+  function changeGpuCoin(coin) {
+    setSelectedGpuCoin(coin);
+    localStorage.setItem("xinghuo_gpu_coin", coin);
   }
 
   function toggleSidebar() {
@@ -177,8 +196,10 @@ export function App() {
             minerStates={minerStates}
             cpuRunning={cpuRunning}
             gpuRunning={gpuRunning}
+            selectedGpuCoin={selectedGpuCoin}
             onToggleCoin={toggleCoin}
             onToggleGpu={toggleGpu}
+            onGpuCoinChange={changeGpuCoin}
           />
         )}
         {view === "settings" && <SettingsView minerStates={minerStates} />}
@@ -229,7 +250,7 @@ function AuthScreen({ onAuthed }) {
   );
 }
 
-function HomeView({ device, minerStates, cpuRunning, gpuRunning, onToggleCoin, onToggleGpu }) {
+function HomeView({ device, minerStates, cpuRunning, gpuRunning, selectedGpuCoin, onToggleCoin, onToggleGpu, onGpuCoinChange }) {
   return (
     <section className="content">
       <div className="deviceCard">
@@ -243,7 +264,16 @@ function HomeView({ device, minerStates, cpuRunning, gpuRunning, onToggleCoin, o
 
       <div className="cards">
         <MineCard title="CPU" icon={Cpu} detail="XMR" running={cpuRunning} hashrate={minerStates.XMR?.hashrate} onClick={() => onToggleCoin("XMR")} />
-        <MineCard title="GPU" icon={MonitorPlay} detail="RVN / CFX / PRL" running={gpuRunning} hashrate={sumGpu(minerStates)} onClick={onToggleGpu} />
+        <MineCard title="GPU" icon={MonitorPlay} detail={selectedGpuCoin} running={gpuRunning} hashrate={minerStates[selectedGpuCoin]?.hashrate} onClick={onToggleGpu}>
+          <label className="coinSelect">
+            <span>GPU 币种</span>
+            <select value={selectedGpuCoin} onChange={(event) => onGpuCoinChange(event.target.value)}>
+              {gpuCoins.map((coin) => (
+                <option key={coin} value={coin}>{coin} / {minerStates[coin]?.algorithm || "-"}</option>
+              ))}
+            </select>
+          </label>
+        </MineCard>
       </div>
 
       <div className="trend">
@@ -263,11 +293,12 @@ function HomeView({ device, minerStates, cpuRunning, gpuRunning, onToggleCoin, o
   );
 }
 
-function MineCard({ title, icon: Icon, detail, running, hashrate, onClick }) {
+function MineCard({ title, icon: Icon, detail, running, hashrate, onClick, children }) {
   return (
     <div className="mineCard">
       <div className="mineHead"><Icon size={26} /><h3>{title}</h3></div>
       <p>{detail}</p>
+      {children && <div className="mineControls">{children}</div>}
       <strong>{running ? `${Number(hashrate || 0).toFixed(2)} H/s` : "--"}</strong>
       <button className={running ? "stopBtn" : "startBtn"} onClick={onClick}>
         {running ? <Square size={18} /> : <Play size={18} />} {running ? "停止" : "启动"}
@@ -323,10 +354,6 @@ function timeOnly(value) {
 
 function formatEvent(event) {
   return `${timeOnly(event.at)} [${event.coin}] ${event.status} ${event.hashrate || 0} H/s ${event.message || ""}`;
-}
-
-function sumGpu(states) {
-  return ["RVN", "CFX", "PRL"].reduce((total, coin) => total + Number(states[coin]?.hashrate || 0), 0);
 }
 
 function errorText(code) {
