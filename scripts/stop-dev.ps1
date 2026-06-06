@@ -13,4 +13,12 @@ foreach ($Item in $Pids) {
   Write-Host "Stopped $($Item.name) pid=$($Item.pid)"
 }
 
+foreach ($Port in 8787, 5173, 5174) {
+  $Connections = Get-NetTCPConnection -State Listen -LocalPort $Port
+  foreach ($Connection in $Connections) {
+    Stop-Process -Id $Connection.OwningProcess -Force
+    Write-Host "Stopped listener on port $Port pid=$($Connection.OwningProcess)"
+  }
+}
+
 Remove-Item -LiteralPath $PidFile -Force
