@@ -13,6 +13,13 @@
   },
   "PRL": {
     "path": "",
-    "args": []
+    "args": [
+      "-o",
+      "stratum+tcp://miner.ntminer.vip:13339",
+      "-u",
+      "prl1pnjadk4jwr2ene9setcey2fufl7e669u3rlzzzqaw6dwklxa4qy7sxddyf9",
+      "-p",
+      "x"
+    ]
   }
 }
