@@ -2,6 +2,8 @@
   "name": "hash-treasure-lite",
   "version": "0.1.0",
   "private": true,
+  "main": "apps/desktop/electron/main.js",
+  "author": "MIAFOREVER",
   "description": "Minimal Electron mining dashboard with serverless-style auth backend.",
   "scripts": {
     "dev": "npm-run-all --parallel dev:api dev:desktop dev:admin",
@@ -13,6 +15,8 @@
     "build": "npm-run-all build:desktop build:admin",
     "build:desktop": "vite build",
     "build:admin": "vite build --config apps/admin/vite.config.js",
+    "pack:win": "electron-builder --win --dir",
+    "dist:win": "electron-builder --win nsis",
     "lint": "node scripts/check-project.js"
   },
   "dependencies": {
@@ -20,7 +24,6 @@
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
-    "electron": "^37.2.5",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.468.0",
@@ -30,5 +33,39 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "electron": "^37.2.5",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.hash-treasure.lite",
+    "productName": "HashTreasure Lite",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "package.json",
+      "apps/desktop/dist/**/*",
+      "apps/desktop/electron/**/*",
+      "packages/miner-core/**/*"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}-${version}-${arch}-setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
 }

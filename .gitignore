@@ -2,6 +2,7 @@ node_modules/
 dist/
 apps/desktop/dist/
 apps/admin/dist/
+release/
 data/
 .tools/
 .env

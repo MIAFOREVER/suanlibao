@@ -15,7 +15,7 @@ function createWindow() {
     minWidth: 1024,
     minHeight: 680,
     frame: false,
-    title: "算力宝 Lite",
+    title: "HashTreasure Lite",
     backgroundColor: "#f6f8fb",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -25,7 +25,7 @@ function createWindow() {
   });
 
   const devUrl = process.env.DESKTOP_DEV_URL || "http://127.0.0.1:5173";
-  if (process.env.NODE_ENV === "production") {
+  if (app.isPackaged || process.env.NODE_ENV === "production") {
     mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
   } else {
     mainWindow.loadURL(devUrl);
