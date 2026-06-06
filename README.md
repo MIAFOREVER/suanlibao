@@ -37,6 +37,12 @@ npm run dev:admin
 .\scripts\dev.ps1 admin
 ```
 
+本地启动 Electron 开发窗口：
+
+```powershell
+.\scripts\electron-dev.ps1
+```
+
 ## GitHub
 
 本地仓库已经可以直接推送。若你已安装并登录 GitHub CLI：
