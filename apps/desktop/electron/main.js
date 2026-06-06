@@ -25,10 +25,10 @@ function createWindow() {
   startBundledApi();
 
   mainWindow = new BrowserWindow({
-    width: 1280,
-    height: 820,
-    minWidth: 1024,
-    minHeight: 680,
+    width: 1600,
+    height: 980,
+    minWidth: 1280,
+    minHeight: 820,
     frame: false,
     title: "星火 AI",
     backgroundColor: "#f6f8fb",
