@@ -1,0 +1,155 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, "Microsoft YaHei", Arial, sans-serif;
+  color: #111827;
+  background: #f4f7fb;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+.login {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.login form {
+  width: min(400px, calc(100vw - 32px));
+  display: grid;
+  gap: 16px;
+  padding: 32px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.15);
+}
+
+.login svg {
+  color: #6d46f5;
+}
+
+.login h1 {
+  margin: 0;
+}
+
+.login label {
+  display: grid;
+  gap: 8px;
+  color: #475569;
+  font-weight: 800;
+}
+
+.login input {
+  height: 44px;
+  border: 1px solid #dbe2ea;
+  border-radius: 8px;
+  padding: 0 12px;
+}
+
+.login p {
+  margin: 0;
+  color: #b91c1c;
+}
+
+.login button,
+.admin header button {
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 18px;
+  border-radius: 8px;
+  color: #fff;
+  background: #7555f6;
+  font-weight: 900;
+}
+
+.admin {
+  min-height: 100vh;
+  padding: 32px;
+}
+
+.admin header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.admin h1 {
+  margin: 0 0 8px;
+}
+
+.admin p {
+  margin: 0;
+  color: #64748b;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.summary div,
+.tablePanel {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+}
+
+.summary div {
+  display: grid;
+  gap: 10px;
+  padding: 22px;
+}
+
+.summary svg {
+  color: #6d46f5;
+}
+
+.summary strong {
+  font-size: 34px;
+}
+
+.summary span {
+  color: #64748b;
+  font-weight: 800;
+}
+
+.tablePanel {
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 16px;
+  border-bottom: 1px solid #eef2f7;
+  text-align: left;
+  white-space: nowrap;
+}
+
+th {
+  color: #64748b;
+  background: #f8fafc;
+}

@@ -1,0 +1,18 @@
+{
+  "XMR": {
+    "path": "",
+    "args": ["-o", "pool.example:3333", "-u", "YOUR_XMR_WALLET", "-p", "x"]
+  },
+  "RVN": {
+    "path": "",
+    "args": ["-a", "kawpow", "-o", "stratum+tcp://pool.example:3636", "-u", "YOUR_RVN_WALLET"]
+  },
+  "CFX": {
+    "path": "",
+    "args": ["--algo", "octopus", "--pool", "pool.example:3256", "--user", "YOUR_CFX_WALLET"]
+  },
+  "PRL": {
+    "path": "",
+    "args": []
+  }
+}
