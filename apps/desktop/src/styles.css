@@ -288,6 +288,7 @@ button {
 
 .main {
   min-width: 0;
+  min-height: 0;
   display: grid;
   grid-template-rows: 78px 1fr;
 }
@@ -340,6 +341,7 @@ button {
   display: grid;
   gap: 28px;
   padding: 26px;
+  min-height: 0;
   overflow: auto;
 }
 
@@ -528,6 +530,18 @@ button {
   padding: 30px;
 }
 
+.logsContent {
+  height: 100%;
+  overflow: hidden;
+}
+
+.logPanel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+  height: 100%;
+}
+
 .plainPanel p {
   color: #64748b;
   line-height: 1.8;
@@ -567,6 +581,15 @@ pre {
   color: #d1d5db;
   background: #111827;
   line-height: 1.7;
+}
+
+.logsContent pre {
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  overflow: auto;
+  overscroll-behavior: contain;
+  white-space: pre-wrap;
 }
 
 @media (max-width: 900px) {

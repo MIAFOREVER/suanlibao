@@ -299,8 +299,8 @@ function SettingsView({ minerStates }) {
 
 function LogsView({ logs }) {
   return (
-    <section className="content">
-      <div className="plainPanel">
+    <section className="content logsContent">
+      <div className="plainPanel logPanel">
         <h2>运行日志</h2>
         <pre>{logs.length ? logs.join("\n") : "暂无日志"}</pre>
       </div>

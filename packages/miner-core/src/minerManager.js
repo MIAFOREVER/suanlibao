@@ -140,7 +140,7 @@ class MinerManager extends EventEmitter {
   }
 
   emitLog(coin, chunk) {
-    const text = chunk.toString("utf8").trim();
+    const text = stripAnsi(chunk.toString("utf8")).trim();
     if (!text) return;
     this.emit("log", { coin, text, at: new Date().toISOString() });
   }
@@ -157,6 +157,10 @@ class MinerManager extends EventEmitter {
       at: new Date().toISOString()
     };
   }
+}
+
+function stripAnsi(value) {
+  return value.replace(/\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~]|\][^\x07]*(?:\x07|\x1B\\))/g, "");
 }
 
 module.exports = { MinerManager, DEFAULT_MINERS };
