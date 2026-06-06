@@ -47,6 +47,7 @@
       "package.json",
       "apps/desktop/dist/**/*",
       "apps/desktop/electron/**/*",
+      "packages/backend/**/*",
       "packages/miner-core/**/*"
     ],
     "asar": true,

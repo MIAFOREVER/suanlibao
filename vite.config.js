@@ -5,6 +5,7 @@ const path = require("path");
 module.exports = defineConfig({
   plugins: [react()],
   root: process.cwd(),
+  base: "./",
   build: {
     outDir: path.resolve(__dirname, "apps/desktop/dist"),
     emptyOutDir: true
