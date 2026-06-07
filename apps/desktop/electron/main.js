@@ -1,13 +1,23 @@
 const path = require("path");
 const os = require("os");
 const crypto = require("crypto");
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, Menu, Tray } = require("electron");
 const { MinerManager } = require("../../../packages/miner-core/src/minerManager");
 const minerConfig = require("./miners.json");
 
 const manager = new MinerManager(minerConfig, { baseDir: __dirname });
 let mainWindow;
 let apiServer;
+let tray;
+let isQuitting = false;
+
+app.setAppUserModelId("com.xinghuo.ai");
+
+function assetPath(fileName) {
+  return path
+    .join(__dirname, "assets", fileName)
+    .replace(`${path.sep}app.asar${path.sep}`, `${path.sep}app.asar.unpacked${path.sep}`);
+}
 
 function startBundledApi() {
   if (!app.isPackaged || apiServer) return;
@@ -30,6 +40,7 @@ function createWindow() {
     minWidth: 1280,
     minHeight: 820,
     frame: false,
+    icon: assetPath("icon.ico"),
     title: "星火 AI",
     backgroundColor: "#f6f8fb",
     webPreferences: {
@@ -45,11 +56,48 @@ function createWindow() {
   } else {
     mainWindow.loadURL(devUrl);
   }
+
+  mainWindow.on("close", (event) => {
+    if (isQuitting) return;
+    event.preventDefault();
+    mainWindow.hide();
+    ensureTray();
+  });
+
+  ensureTray();
+}
+
+function ensureTray() {
+  if (tray) return tray;
+  tray = new Tray(assetPath("tray.png"));
+  tray.setToolTip("\u661f\u706b AI");
+  tray.setContextMenu(Menu.buildFromTemplate([
+    { label: "\u6253\u5f00\u661f\u706b AI", click: showMainWindow },
+    { type: "separator" },
+    {
+      label: "\u9000\u51fa",
+      click: () => {
+        isQuitting = true;
+        app.quit();
+      }
+    }
+  ]));
+  tray.on("click", showMainWindow);
+  tray.on("double-click", showMainWindow);
+  return tray;
+}
+
+function showMainWindow() {
+  if (!mainWindow) return;
+  if (mainWindow.isMinimized()) mainWindow.restore();
+  mainWindow.show();
+  mainWindow.focus();
 }
 
 app.whenReady().then(createWindow);
 
 app.on("before-quit", () => {
+  isQuitting = true;
   manager.stopAll();
   apiServer?.close();
 });
@@ -63,7 +111,10 @@ ipcMain.handle("app:device", () => ({
   platform: process.platform
 }));
 
-ipcMain.handle("window:minimize", () => mainWindow?.minimize());
+ipcMain.handle("window:minimize", () => {
+  mainWindow?.hide();
+  ensureTray();
+});
 ipcMain.handle("window:close", () => mainWindow?.close());
 ipcMain.handle("miners:list", () => manager.list());
 ipcMain.handle("miners:start", (_event, coin) => manager.start(coin));

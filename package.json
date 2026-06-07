@@ -57,9 +57,11 @@
     ],
     "asar": true,
     "asarUnpack": [
+      "apps/desktop/electron/assets/**/*",
       "apps/desktop/electron/miners/**/*"
     ],
     "win": {
+      "icon": "apps/desktop/electron/assets/icon.ico",
       "target": [
         {
           "target": "nsis",
