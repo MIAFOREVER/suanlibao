@@ -7,6 +7,7 @@ data/
 .tools/
 .downloads/
 apps/desktop/electron/miners/alpha-miner/
+apps/desktop/electron/miners/alpha-miner-amd/
 apps/desktop/electron/miners/lolminer/
 .env
 *.log

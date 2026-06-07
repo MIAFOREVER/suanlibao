@@ -75,7 +75,7 @@ class MinerManager extends EventEmitter {
   }
 
   preflightKernel(coin, coinConfig, kernelConfig) {
-    if (process.platform !== "win32" || coinConfig.kernel !== "alpha-miner") {
+    if (process.platform !== "win32" || !["alpha-miner", "alpha-miner-amd"].includes(coinConfig.kernel)) {
       return { ok: true };
     }
 
@@ -89,10 +89,17 @@ class MinerManager extends EventEmitter {
       };
     }
 
-    if (!findDll("nvcuda.dll")) {
+    if (coinConfig.kernel === "alpha-miner" && !findDll("nvcuda.dll")) {
       return {
         ok: false,
         message: "AlphaMiner 是 NVIDIA/CUDA 版 PRL 内核，但当前系统没有 nvcuda.dll/NVIDIA 驱动；这台 AMD/Intel 显卡机器不能用该内核挖 PRL。"
+      };
+    }
+
+    if (coinConfig.kernel === "alpha-miner-amd" && !findDll("amdhip64_7.dll", [kernelDir])) {
+      return {
+        ok: false,
+        message: "AlphaMiner AMD 版 PRL 内核需要 amdhip64_7.dll。请更新 AMD Software/驱动或安装 AMD HIP Runtime 7 后再启动 PRL。"
       };
     }
 

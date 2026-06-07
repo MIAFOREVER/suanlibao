@@ -11,6 +11,10 @@
     "alpha-miner": {
       "path": "miners/alpha-miner/alpha-miner-windows.exe",
       "args": []
+    },
+    "alpha-miner-amd": {
+      "path": "miners/alpha-miner-amd/alpha-miner-amd-win-v1.0.0.exe",
+      "args": []
     }
   },
   "coins": {
@@ -51,9 +55,9 @@
       ]
     },
     "PRL": {
-      "kernel": "alpha-miner",
+      "kernel": "alpha-miner-amd",
       "type": "gpu",
-      "algorithm": "pearl-pow",
+      "algorithm": "pearl-pow-amd",
       "args": [
         "--pool",
         "stratum+ssl://miner.ntminer.vip:14439",

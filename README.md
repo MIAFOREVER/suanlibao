@@ -76,10 +76,13 @@ gh auth login
 `apps/desktop/electron/miners.json` 已支持：
 
 - PRL: `alpha-miner`, `pearl-pow`
+- PRL AMD: `alpha-miner-amd`, `pearl-pow-amd`
 - RVN: `lolMiner`, `KAWPOW`
 - CFX: `lolMiner`, `OCTOPUS`
 
 将 exe 放到 `apps/desktop/electron/miners/` 下，或在 `miners.json` 里填写绝对路径。相对路径以 `apps/desktop/electron/` 为基准。
+
+PRL 默认使用 Windows AMD 版 `AlphaMiner-Pearl-AMD`。RX 6000/7000 机器需要 AMD HIP runtime；如果系统缺少 `amdhip64_7.dll`，客户端会在日志里提示更新 AMD Software/驱动或安装 AMD HIP Runtime 7。
 
 导入本机已下载内核。如果默认下载目录不存在，脚本会自动下载 alpha-miner 和 lolMiner v1.98 后导入：
 

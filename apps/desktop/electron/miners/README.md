@@ -8,6 +8,8 @@ Recommended layout:
 apps/desktop/electron/miners/
   alpha-miner/
     alpha-miner-windows.exe
+  alpha-miner-amd/
+    alpha-miner-amd-win-v1.0.0.exe
   lolminer/
     lolMiner.exe
     msvcp140.dll
@@ -20,6 +22,9 @@ Then set:
   "kernels": {
     "alpha-miner": {
       "path": "miners/alpha-miner/alpha-miner-windows.exe"
+    },
+    "alpha-miner-amd": {
+      "path": "miners/alpha-miner-amd/alpha-miner-amd-win-v1.0.0.exe"
     },
     "lolminer": {
       "path": "miners/lolminer/lolMiner.exe"
