@@ -40,7 +40,7 @@ function createWindow() {
     minWidth: 1280,
     minHeight: 820,
     frame: false,
-    icon: assetPath("icon.png"),
+    icon: assetPath("icon.ico"),
     title: "星火 AI",
     backgroundColor: "#f6f8fb",
     webPreferences: {

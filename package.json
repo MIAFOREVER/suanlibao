@@ -61,7 +61,7 @@
       "apps/desktop/electron/miners/**/*"
     ],
     "win": {
-      "icon": "apps/desktop/electron/assets/icon.png",
+      "icon": "apps/desktop/electron/assets/icon.ico",
       "target": [
         {
           "target": "nsis",
