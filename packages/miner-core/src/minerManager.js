@@ -97,9 +97,10 @@ class MinerManager extends EventEmitter {
     }
 
     if (coinConfig.kernel === "alpha-miner-amd" && !findDll("amdhip64_7.dll", [kernelDir])) {
+      const detectedHip = findDllPath("amdhip64_6.dll", [kernelDir]) ? "当前只检测到 amdhip64_6.dll。" : "";
       return {
         ok: false,
-        message: "AlphaMiner AMD 版 PRL 内核需要 amdhip64_7.dll。请更新 AMD Software/驱动或安装 AMD HIP Runtime 7 后再启动 PRL。"
+        message: `AlphaMiner AMD 版 PRL 内核已集成，但需要 amdhip64_7.dll。${detectedHip}请更新 AMD Software/驱动或安装 AMD HIP Runtime 7 后再启动 PRL。`
       };
     }
 
@@ -204,6 +205,10 @@ function stripAnsi(value) {
 }
 
 function findDll(name, extraDirs = []) {
+  return Boolean(findDllPath(name, extraDirs));
+}
+
+function findDllPath(name, extraDirs = []) {
   const systemRoot = process.env.SystemRoot || "C:\\Windows";
   const dirs = [
     ...extraDirs,
@@ -211,7 +216,11 @@ function findDll(name, extraDirs = []) {
     path.join(systemRoot, "Sysnative"),
     ...String(process.env.PATH || "").split(path.delimiter)
   ].filter(Boolean);
-  return dirs.some((dir) => fs.existsSync(path.join(dir, name)));
+  for (const dir of dirs) {
+    const candidate = path.join(dir, name);
+    if (fs.existsSync(candidate)) return candidate;
+  }
+  return "";
 }
 
 module.exports = { MinerManager, DEFAULT_MINERS };

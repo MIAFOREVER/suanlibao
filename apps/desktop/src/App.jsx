@@ -263,8 +263,8 @@ function HomeView({ device, minerStates, cpuRunning, gpuRunning, selectedGpuCoin
       </div>
 
       <div className="cards">
-        <MineCard title="CPU" icon={Cpu} detail="XMR" running={cpuRunning} hashrate={minerStates.XMR?.hashrate} onClick={() => onToggleCoin("XMR")} />
-        <MineCard title="GPU" icon={MonitorPlay} detail={selectedGpuCoin} running={gpuRunning} hashrate={minerStates[selectedGpuCoin]?.hashrate} onClick={onToggleGpu}>
+        <MineCard title="CPU" icon={Cpu} detail="XMR" running={cpuRunning} hashrate={minerStates.XMR?.hashrate} message={minerStates.XMR?.message} onClick={() => onToggleCoin("XMR")} />
+        <MineCard title="GPU" icon={MonitorPlay} detail={selectedGpuCoin} running={gpuRunning} hashrate={minerStates[selectedGpuCoin]?.hashrate} message={minerStates[selectedGpuCoin]?.message} onClick={onToggleGpu}>
           <label className="coinSelect">
             <span>GPU 币种</span>
             <select value={selectedGpuCoin} onChange={(event) => onGpuCoinChange(event.target.value)}>
@@ -293,12 +293,13 @@ function HomeView({ device, minerStates, cpuRunning, gpuRunning, selectedGpuCoin
   );
 }
 
-function MineCard({ title, icon: Icon, detail, running, hashrate, onClick, children }) {
+function MineCard({ title, icon: Icon, detail, running, hashrate, message, onClick, children }) {
   return (
     <div className="mineCard">
       <div className="mineHead"><Icon size={26} /><h3>{title}</h3></div>
       <p>{detail}</p>
       {children && <div className="mineControls">{children}</div>}
+      {!running && message && <div className="mineMessage">{message}</div>}
       <strong>{running ? `${Number(hashrate || 0).toFixed(2)} H/s` : "--"}</strong>
       <button className={running ? "stopBtn" : "startBtn"} onClick={onClick}>
         {running ? <Square size={18} /> : <Play size={18} />} {running ? "停止" : "启动"}

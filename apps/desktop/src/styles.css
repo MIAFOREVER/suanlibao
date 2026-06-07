@@ -425,6 +425,19 @@ button {
   max-width: 360px;
 }
 
+.mineMessage {
+  position: absolute;
+  left: 28px;
+  right: 210px;
+  bottom: 92px;
+  max-height: 46px;
+  overflow: hidden;
+  color: #b42318;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
 .coinSelect {
   display: grid;
   gap: 8px;
